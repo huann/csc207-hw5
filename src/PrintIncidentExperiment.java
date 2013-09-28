@@ -21,7 +21,7 @@ public class PrintIncidentExperiment {
         UshahidiExtensions.printIncident(client.nextIncident());
 
         // One that requires connecting to the server
-        UshahidiClient webclient = new UshahidiWebClient(URL);
+        UshahidiClient webclient = new UshahidiWebClient("https://farmersmarket.crowdmap.com/");
         UshahidiExtensions.printIncident(webclient.nextIncident());
     } // main(String[])
 }
