@@ -1,3 +1,4 @@
+import edu.grinnell.csc207.huann.hw5.UshahidiExtensions;
 import edu.grinnell.glimmer.ushahidi.UshahidiClient;
 import edu.grinnell.glimmer.ushahidi.UshahidiWebClient;
 import java.io.PrintWriter;
