@@ -11,7 +11,7 @@ import edu.grinnell.glimmer.ushahidi.UshahidiIncident;
 import edu.grinnell.glimmer.ushahidi.UshahidiUtils;
 
 public class PrintIncidentExperiment {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		Calendar date = new GregorianCalendar(10, 25, 2013);
 		UshahidiLocation Grinnell = new UshahidiLocation(100, "Grinnell");
 		
@@ -32,7 +32,7 @@ public class PrintIncidentExperiment {
 	    UshahidiExtensions.printIncident(pen, client.nextIncident());
 
 	    // One that requires connecting to the server
-	    UshahidiClient webclient = new UshahidiWebClient("www.burgermap.org");
+	    UshahidiClient webclient = new UshahidiWebClient("http://burgermap.org");
 	    UshahidiExtensions.printIncident(pen, webclient.nextIncident());
 	} // main(String[])
 }

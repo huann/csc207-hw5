@@ -37,12 +37,12 @@ public class UshahidiExtensions {
 		Calendar calendar4 = new GregorianCalendar(3, 4, 2001);
 		Calendar calendar5 = new GregorianCalendar(8, 10, 2002);
 		Calendar calendar6 = new GregorianCalendar(1, 2, 2003);
-		Calendar calendar7 = new GregorianCalendar(7, 9, 2003);
-		Calendar calendar8 = new GregorianCalendar(6, 18, 2004);
-		Calendar calendar9 = new GregorianCalendar(3, 16, 2005);
-		Calendar calendar10 = new GregorianCalendar(9, 14, 2006);
-		Calendar calendar11 = new GregorianCalendar(4, 12, 2007);
-
+		Calendar calendar7 = new GregorianCalendar(7, 9, 2005);
+		Calendar calendar8 = new GregorianCalendar(6, 18, 2007);
+		Calendar calendar9 = new GregorianCalendar(3, 16, 2008);
+		Calendar calendar10 = new GregorianCalendar(9, 14, 2010);
+		Calendar calendar11 = new GregorianCalendar(4, 12, 2013);
+		
 		UshahidiLocation Grinnell = new UshahidiLocation(100, "Grinnell");
 		UshahidiLocation OtherPlace = new UshahidiLocation(200, "Alabama");
 
@@ -111,8 +111,11 @@ public class UshahidiExtensions {
 				LowId = CurrentIncident;
 			} // if
 		} // while
-		printIncident(pen, HighId);
+		
+		pen.println("\nLowest Id: ");
 		printIncident(pen, LowId);
+        pen.println("\nHighest Id: ");
+		printIncident(pen, HighId);
 	} // printExtremes()
 
 	
@@ -123,16 +126,17 @@ public class UshahidiExtensions {
 	 * @param EndDate
 	 * @throws Exception
 	 */
-	public static void printByDate(UshahidiClient client, Calendar StartDate,
-			Calendar EndDate) throws Exception {
+	public static void printByDate(UshahidiClient client, Calendar startDate,
+			Calendar endDate) throws Exception {
 		PrintWriter pen = new PrintWriter(System.out, true);
-		UshahidiIncident CurrentIncident = new UshahidiIncident();
+		UshahidiIncident CurrentIncident;
 		
 		while (client.hasMoreIncidents()) {
 			CurrentIncident = client.nextIncident();
 			Calendar nextDate = CurrentIncident.getDate();
-			if ((nextDate.after(StartDate) && nextDate.before(EndDate))) {
-				pen.println(CurrentIncident);
+			if ((nextDate.compareTo(startDate) >= 0) && (nextDate.compareTo(endDate) <= 0)) {
+				pen.println("\n");
+				printIncident(pen, CurrentIncident);
 			} // if
 		} // while
 	} // printByDate(Calendar, Calendar)
@@ -172,14 +176,25 @@ public class UshahidiExtensions {
 
 	
 	public static void main(String[] args) throws Exception {
+		PrintWriter pen = new PrintWriter(System.out, true);
 		UshahidiIncidentList samplelist = createIncidentList();
-		Calendar calendar1 = new GregorianCalendar(7, 5, 1992);
-		Calendar calendar9 = new GregorianCalendar(3, 16, 2005);
-		//UshahidiClient client = new UshahidiWebClient("www.burgermap.org");
+		Calendar calendar100 = new GregorianCalendar(2, 2, 2012);
+		Calendar calendar200 = new GregorianCalendar(9, 26, 2013);
+		UshahidiClient webclient = new UshahidiWebClient("http://burgermap.org");
 
+		pen.println("Lowest and highest from sampleList:");
 		printExtremes(samplelist);
-		//printExtremes(client);
-		//printByDate(samplelist, calendar1, calendar9);
-		//createByDate(samplelist, calendar1, calendar9);
+		pen.println("\n\nLowest and highest from burgermap:");
+		printExtremes(webclient);
+		pen.println("\n\nIncidents from sampleList between 2/2/2012 and 9/26/2013:");
+		printByDate(samplelist, calendar100, calendar200);
+		printByDate(webclient, calendar100, calendar200);
+		createByDate(samplelist, calendar100, calendar200);
+		createByDate(webclient, calendar100, calendar200);
 	}
 }
+
+/**
+*Citations:
+*Consulted with Daniel and others about Calendar.
+*/
