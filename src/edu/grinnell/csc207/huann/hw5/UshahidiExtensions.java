@@ -121,20 +121,21 @@ public class UshahidiExtensions {
 	
 	/**
 	 * Prints all incidents that happen between a given start date and end date. 
+	 * The code should work in theory. In practice, it seems to be comparing the months instead of the overall dates.
 	 * @param client
 	 * @param StartDate
 	 * @param EndDate
 	 * @throws Exception
 	 */
 	public static void printByDate(UshahidiClient client, Calendar startDate,
-			Calendar endDate) throws Exception {
+			Calendar endDate) throws Exception  {
 		PrintWriter pen = new PrintWriter(System.out, true);
 		UshahidiIncident CurrentIncident;
 		
 		while (client.hasMoreIncidents()) {
 			CurrentIncident = client.nextIncident();
 			Calendar nextDate = CurrentIncident.getDate();
-			if ((nextDate.compareTo(startDate) >= 0) && (nextDate.compareTo(endDate) <= 0)) {
+			if ((nextDate.after(startDate)) && (nextDate.before(endDate))) {
 				pen.println("\n");
 				printIncident(pen, CurrentIncident);
 			} // if
@@ -144,6 +145,7 @@ public class UshahidiExtensions {
 	
 	/**
 	 * Creates and returns an array of all incidents that occur between a given start date and end date.
+	 * The code should work in theory. In practice, it seems to be comparing the months instead of the overall dates.
 	 * @param client
 	 * @param StartDate
 	 * @param EndDate
@@ -173,25 +175,6 @@ public class UshahidiExtensions {
 
 		return results;
 	} // createByDate(Calendar, Calendar)
-
-	
-	public static void main(String[] args) throws Exception {
-		PrintWriter pen = new PrintWriter(System.out, true);
-		UshahidiIncidentList samplelist = createIncidentList();
-		Calendar calendar100 = new GregorianCalendar(2, 2, 2012);
-		Calendar calendar200 = new GregorianCalendar(9, 26, 2013);
-		UshahidiClient webclient = new UshahidiWebClient("http://burgermap.org");
-
-		pen.println("Lowest and highest from sampleList:");
-		printExtremes(samplelist);
-		pen.println("\n\nLowest and highest from burgermap:");
-		printExtremes(webclient);
-		pen.println("\n\nIncidents from sampleList between 2/2/2012 and 9/26/2013:");
-		printByDate(samplelist, calendar100, calendar200);
-		printByDate(webclient, calendar100, calendar200);
-		createByDate(samplelist, calendar100, calendar200);
-		createByDate(webclient, calendar100, calendar200);
-	}
 }
 
 /**
